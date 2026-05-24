@@ -1,10 +1,10 @@
 import Foundation
-import Testing
+import XCTest
 
 @testable import QuickCalApp
 
-struct QuickEventDraftTests {
-  @Test func givenNewDraft_whenInitialized_thenEditableFieldsAreEmptyAndDateUsesToday() {
+final class QuickEventDraftTests: XCTestCase {
+  func test_givenNewDraft_whenInitialized_thenEditableFieldsAreEmptyAndDateUsesToday() {
     // Arrange
     let today = Date(timeIntervalSinceReferenceDate: 800_000)
 
@@ -12,10 +12,10 @@ struct QuickEventDraftTests {
     let draft = QuickEventDraft(today: today)
 
     // Assert
-    #expect(draft.naturalLanguageText == "")
-    #expect(draft.title == "")
-    #expect(draft.location == "")
-    #expect(draft.notes == "")
-    #expect(draft.date == today)
+    XCTAssertEqual(draft.naturalLanguageText, "")
+    XCTAssertEqual(draft.title, "")
+    XCTAssertEqual(draft.location, "")
+    XCTAssertEqual(draft.notes, "")
+    XCTAssertEqual(draft.date, today)
   }
 }
