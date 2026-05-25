@@ -8,38 +8,22 @@ struct QuickEventEntryView: View {
   }
 
   var body: some View {
-    ZStack {
-      VisualBackdrop()
-
-      VStack(spacing: 0) {
-        NaturalLanguageEntry(text: $draft.naturalLanguageText)
-        DetailsSection(draft: $draft)
-        PanelFooter()
-      }
-      .frame(width: 460)
-      .background(Color.panel)
-      .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-      .overlay {
-        RoundedRectangle(cornerRadius: 12, style: .continuous)
-          .stroke(Color.outline, lineWidth: 1)
-      }
-      .shadow(color: .black.opacity(0.36), radius: 24, y: 12)
+    VStack(spacing: 0) {
+      NaturalLanguageEntry(text: $draft.naturalLanguageText)
+      DetailsSection(draft: $draft)
+      PanelFooter()
     }
-    .frame(width: 700, height: 640)
+    .frame(width: QuickEventEntryPanelMetrics.width, height: QuickEventEntryPanelMetrics.height)
+    .background(Color.panel)
+    .clipShape(
+      RoundedRectangle(cornerRadius: QuickEventEntryPanelMetrics.cornerRadius, style: .continuous))
+    .overlay {
+      RoundedRectangle(
+        cornerRadius: QuickEventEntryPanelMetrics.cornerRadius,
+        style: .continuous)
+        .stroke(Color.outline, lineWidth: 1)
+    }
     .preferredColorScheme(.dark)
-  }
-}
-
-private struct VisualBackdrop: View {
-  var body: some View {
-    LinearGradient(
-      colors: [.purple.opacity(0.42), .orange.opacity(0.45), .teal.opacity(0.38)],
-      startPoint: .topLeading,
-      endPoint: .bottomTrailing
-    )
-    .overlay(.black.opacity(0.48))
-    .blur(radius: 18)
-    .ignoresSafeArea()
   }
 }
 

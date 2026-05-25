@@ -7,8 +7,11 @@ struct QuickCalApp: App {
   var body: some Scene {
     WindowGroup {
       QuickEventEntryView()
+        .background {
+          PanelOnlyWindowConfigurator()
+        }
     }
-    .defaultSize(width: 700, height: 640)
+    .defaultSize(width: QuickEventEntryPanelMetrics.width, height: QuickEventEntryPanelMetrics.height)
     .windowResizability(.contentSize)
   }
 }
