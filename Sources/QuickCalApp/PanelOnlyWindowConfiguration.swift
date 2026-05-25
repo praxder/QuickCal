@@ -19,7 +19,7 @@ struct PanelOnlyWindowConfiguration {
   let contentSize: CGSize
 
   static let quickEventEntry = PanelOnlyWindowConfiguration(
-    styleMask: [.titled, .fullSizeContentView],
+    styleMask: [.fullSizeContentView],
     titleVisibility: .hidden,
     titlebarAppearsTransparent: true,
     backgroundColor: .clear,
