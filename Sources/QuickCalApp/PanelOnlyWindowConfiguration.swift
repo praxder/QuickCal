@@ -10,6 +10,8 @@ enum QuickEventEntryPanelMetrics {
 
 struct PanelOnlyWindowConfiguration {
   let styleMask: NSWindow.StyleMask
+  let titleVisibility: NSWindow.TitleVisibility
+  let titlebarAppearsTransparent: Bool
   let backgroundColor: NSColor
   let isOpaque: Bool
   let hasShadow: Bool
@@ -17,7 +19,9 @@ struct PanelOnlyWindowConfiguration {
   let contentSize: CGSize
 
   static let quickEventEntry = PanelOnlyWindowConfiguration(
-    styleMask: [.borderless],
+    styleMask: [.titled, .fullSizeContentView],
+    titleVisibility: .hidden,
+    titlebarAppearsTransparent: true,
     backgroundColor: .clear,
     isOpaque: false,
     hasShadow: false,
@@ -26,6 +30,8 @@ struct PanelOnlyWindowConfiguration {
 
   func apply(to window: NSWindow) {
     window.styleMask = styleMask
+    window.titleVisibility = titleVisibility
+    window.titlebarAppearsTransparent = titlebarAppearsTransparent
     window.backgroundColor = backgroundColor
     window.isOpaque = isOpaque
     window.hasShadow = hasShadow
@@ -33,6 +39,17 @@ struct PanelOnlyWindowConfiguration {
     window.setContentSize(contentSize)
     window.minSize = contentSize
     window.maxSize = contentSize
+    hideStandardWindowButtons(in: window)
+  }
+
+  private func hideStandardWindowButtons(in window: NSWindow) {
+    [
+      NSWindow.ButtonType.closeButton,
+      .miniaturizeButton,
+      .zoomButton,
+    ].forEach { buttonType in
+      window.standardWindowButton(buttonType)?.isHidden = true
+    }
   }
 }
 

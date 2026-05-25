@@ -13,12 +13,14 @@ final class QuickEventEntryViewTests: XCTestCase {
     XCTAssertEqual(size.height, 640)
   }
 
-  func test_givenPanelOnlyWindowConfiguration_whenInspected_thenItUsesBorderlessStyle() {
+  func test_givenPanelOnlyWindowConfiguration_whenInspected_thenItUsesKeyCapableHiddenChromeStyle() {
     // Arrange, Act
     let configuration = PanelOnlyWindowConfiguration.quickEventEntry
 
     // Assert
-    XCTAssertEqual(configuration.styleMask, [.borderless])
+    XCTAssertEqual(configuration.styleMask, [.titled, .fullSizeContentView])
+    XCTAssertEqual(configuration.titleVisibility, .hidden)
+    XCTAssertTrue(configuration.titlebarAppearsTransparent)
   }
 
   func test_givenPanelOnlyWindowConfiguration_whenInspected_thenItUsesTransparentNonOpaqueBackground() {
