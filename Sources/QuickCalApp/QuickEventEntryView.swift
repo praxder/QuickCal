@@ -23,6 +23,7 @@ struct QuickEventEntryView: View {
         style: .continuous)
         .stroke(Color.outline, lineWidth: 1)
     }
+    .ignoresSafeArea()
     .preferredColorScheme(.dark)
   }
 }
@@ -48,6 +49,7 @@ private struct NaturalLanguageEntry: View {
       }
     }
     .padding(16)
+    .padding(.top, QuickEventEntryPanelMetrics.titlebarInset)
     .background(Color.panel)
     .overlay(alignment: .bottom) {
       Divider().background(Color.outline)
@@ -133,18 +135,18 @@ private struct TimeControls: View {
       HStack(spacing: 8) {
         DatePicker("", selection: $draft.date, displayedComponents: .date)
           .labelsHidden()
-          .datePickerStyle(.compact)
+          .datePickerStyle(.field)
 
         DatePicker("", selection: $draft.startTime, displayedComponents: .hourAndMinute)
           .labelsHidden()
-          .datePickerStyle(.compact)
+          .datePickerStyle(.field)
 
         Image(systemName: "arrow.right")
           .foregroundStyle(Color.secondaryText)
 
         DatePicker("", selection: $draft.endTime, displayedComponents: .hourAndMinute)
           .labelsHidden()
-          .datePickerStyle(.compact)
+          .datePickerStyle(.field)
       }
       .controlSize(.small)
       .padding(4)

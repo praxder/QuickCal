@@ -13,12 +13,12 @@ final class QuickEventEntryViewTests: XCTestCase {
     XCTAssertEqual(size.height, 640)
   }
 
-  func test_givenPanelOnlyWindowConfiguration_whenInspected_thenItRemovesTitlebarChrome() {
+  func test_givenPanelOnlyWindowConfiguration_whenInspected_thenItHidesTitlebarChromeWhileKeyCapable() {
     // Arrange, Act
     let configuration = PanelOnlyWindowConfiguration.quickEventEntry
 
     // Assert
-    XCTAssertFalse(configuration.styleMask.contains(.titled))
+    XCTAssertTrue(configuration.styleMask.contains(.titled))
     XCTAssertEqual(configuration.titleVisibility, .hidden)
     XCTAssertTrue(configuration.titlebarAppearsTransparent)
   }

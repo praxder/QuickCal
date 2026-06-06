@@ -5,6 +5,7 @@ enum QuickEventEntryPanelMetrics {
   static let width: CGFloat = 460
   static let height: CGFloat = 640
   static let cornerRadius: CGFloat = 12
+  static let titlebarInset: CGFloat = 28
   static let size = CGSize(width: width, height: height)
 }
 
@@ -19,7 +20,7 @@ struct PanelOnlyWindowConfiguration {
   let contentSize: CGSize
 
   static let quickEventEntry = PanelOnlyWindowConfiguration(
-    styleMask: [.fullSizeContentView],
+    styleMask: [.titled, .fullSizeContentView],
     titleVisibility: .hidden,
     titlebarAppearsTransparent: true,
     backgroundColor: .clear,
