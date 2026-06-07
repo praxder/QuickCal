@@ -39,12 +39,20 @@ The system SHALL show settings, cancel, and create event controls in the panel f
 - **WHEN** the quick event entry page is shown
 - **THEN** the footer includes a settings icon control, a cancel control, and a primary create event control.
 
-### Requirement: No Calendar side effects
-The system SHALL NOT create or modify macOS Calendar events from this page in this change.
+### Requirement: Create event writes to Calendar
+The system SHALL create a timed macOS Calendar event on the default calendar when the user activates the create event control, using the entered title and the selected date combined with the start and end time controls.
 
-#### Scenario: Create event is inert
-- **WHEN** the user activates the create event control
-- **THEN** no event is written to the macOS Calendar app.
+#### Scenario: Create event writes a timed event
+- **WHEN** the user enters an event title, sets the date and times, and activates the create event control
+- **THEN** a timed event with that title is written to the default macOS Calendar on the selected date for the selected start and end times.
+
+#### Scenario: Missing Calendar access is surfaced
+- **WHEN** the user activates the create event control and Calendar access is not granted
+- **THEN** the panel surfaces an error and no event is written.
+
+#### Scenario: Missing title is surfaced
+- **WHEN** the user activates the create event control with an empty title
+- **THEN** the panel surfaces an error and no event is written.
 
 ### Requirement: Keyboard-focusable panel
 The quick event entry panel's window SHALL be able to become the key window so its controls can host the first responder and receive keyboard input, while the panel SHALL remain visually borderless with no titlebar chrome.

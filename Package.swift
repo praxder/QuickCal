@@ -12,7 +12,16 @@ let package = Package(
   ],
   targets: [
     .executableTarget(
-      name: "QuickCalApp"
+      name: "QuickCalApp",
+      exclude: ["Info.plist"],
+      linkerSettings: [
+        .unsafeFlags([
+          "-Xlinker", "-sectcreate",
+          "-Xlinker", "__TEXT",
+          "-Xlinker", "__info_plist",
+          "-Xlinker", "Sources/QuickCalApp/Info.plist",
+        ])
+      ]
     ),
     .testTarget(
       name: "QuickCalAppTests",

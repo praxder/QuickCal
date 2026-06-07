@@ -2,16 +2,25 @@ import SwiftUI
 
 struct QuickEventEntryView: View {
   @State private var draft: QuickEventDraft
+  @State private var errorMessage: String?
+  private let writer: CalendarEventWriting
 
-  init(draft: QuickEventDraft = QuickEventDraft()) {
+  init(
+    draft: QuickEventDraft = QuickEventDraft(),
+    writer: CalendarEventWriting = EventKitCalendarWriter()
+  ) {
     _draft = State(initialValue: draft)
+    self.writer = writer
   }
 
   var body: some View {
     VStack(spacing: 0) {
       NaturalLanguageEntry(text: $draft.naturalLanguageText)
       DetailsSection(draft: $draft)
-      PanelFooter()
+      if let errorMessage {
+        ErrorBanner(message: errorMessage)
+      }
+      PanelFooter(onCreate: createEvent)
     }
     .frame(width: QuickEventEntryPanelMetrics.width, height: QuickEventEntryPanelMetrics.height)
     .background(Color.panel)
@@ -25,6 +34,31 @@ struct QuickEventEntryView: View {
     }
     .ignoresSafeArea()
     .preferredColorScheme(.dark)
+  }
+
+  private func createEvent() {
+    Task {
+      do {
+        try await createCalendarEvent(from: draft, using: writer)
+        errorMessage = nil
+      } catch {
+        errorMessage = error.localizedDescription
+      }
+    }
+  }
+}
+
+private struct ErrorBanner: View {
+  let message: String
+
+  var body: some View {
+    Text(message)
+      .font(.system(size: 12))
+      .foregroundStyle(.white)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.horizontal, 16)
+      .padding(.vertical, 8)
+      .background(Color.red.opacity(0.85))
   }
 }
 
@@ -230,6 +264,8 @@ private struct NotesEditor: View {
 }
 
 private struct PanelFooter: View {
+  let onCreate: () -> Void
+
   var body: some View {
     HStack {
       Button {
@@ -247,6 +283,7 @@ private struct PanelFooter: View {
       .buttonStyle(SecondaryButtonStyle())
 
       Button("Create Event") {
+        onCreate()
       }
       .buttonStyle(PrimaryButtonStyle())
     }
